@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {loadPeople} from './data/fake_data'
+import TableComponent from './components/table';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+    state = {
+        people: loadPeople(),
+        pageSize: 7,
+        currentPage: 1
+    }
+
+    handlePageSelection = (page) => {
+        this.setState({currentPage: page})
+    }
+
+    render = () => {
+
+        const {people: allPersons, pageSize, currentPage} = this.state
+
+        return (
+            <div className="App container">
+                <TableComponent
+                    people={allPersons}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    handlePage={this.handlePageSelection}/>
+            </div>
+        )
+    }
 }
 
 export default App;
